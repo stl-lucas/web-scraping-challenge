@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <title>Web Scraping Challenge - Mars</title>
+    </head>
+    <body>
+        <div class="container">
+            <div class="jumbotron mt-3 text-center">
+                <h1 class="display-1">Mission to Mars</h1>
+                <a class="btn btn-lg btn-primary" href="/scrape" role="button">Scrape New Data</a>
+            </div>
+            {% if data %}
+            <div class="row">
+                <div class="col-md-12">
+                    <h3>Latest Mars News</h3>
+                    <h5>{{ data.news_title }}</h5>
+                    <p>{{ data.news_p }}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8">
+                    <h3>Featured Mars Image</h3>
+                    <img src='{{ data.feature_image_url }}' width='90%'/>
+                </div>
+                <div class="col-md-4">
+                    <div>
+                        <h5>Current Weather on Mars</h5>
+                        <span>{{ data.mars_weather }}</span>
+                    </div>
+                    <div>
+                        <h5>Mars Facts</h5>
+                        <p>Table of Facts</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <h3>Mars Hemispheres</h3>
+                    <hr/>
+                </div>
+                {% for url in data.hemisphere_image_urls %}
+                <div class="col-sm-12 col-md-6">
+                    <div class="card">
+                        <img src="{{ url.img_url }}" class="card-img-top" alt="...">
+                        <div class="card-body">
+                          <h5 class="card-title">{{ url.title }}</h5>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="row text-center">
+                <div class="col-md-12">
+                    <p>Nothing to show yet. Click the Scrape button to find some cool info about Mars!</p>
+                </div>
+            </div>
+        {% endif %}
+        </div>
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    </body>
+</html>

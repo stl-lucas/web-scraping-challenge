@@ -7,7 +7,7 @@ def scrape():
 
     # Initialize Browser
     executable_path = {"executable_path": "chromedriver.exe"}
-    browser = Browser("chrome", **executable_path, headless=False)
+    browser = Browser("chrome", **executable_path, headless=True)
 
     # Nasa Mars News
     url = 'https://mars.nasa.gov/news/?page=0&per_page=40&order=publish_date+desc%2Ccreated_at+desc&search=&category=19%2C165%2C184%2C204&blank_scope=Latest'
@@ -51,7 +51,7 @@ def scrape():
     hemisphere_image_urls = []
     base_url = 'https://astrogeology.usgs.gov/'
     for link in links:
-        browser.click_link_by_partial_text(link)
+        browser.links.find_by_partial_text(link)
         new_html = browser.html
         new_soup = bs(new_html, "html.parser")
         title = new_soup.find("h2", {"class": "title"}).get_text()
