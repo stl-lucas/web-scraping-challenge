@@ -30,12 +30,24 @@ def scrape():
     scraped_dict['feature_image_url'] = 'https://www.jpl.nasa.gov' + s[start+len("url('"):end]
 
     # Mars Twitter Feed
-    url = 'https://twitter.com/marswxreport?lang=en'
+    # url = 'https://twitter.com/marswxreport?lang=en'
+    # browser.visit(url)
+    # html = browser.html
+    # soup = bs(html, "html.parser")
+
+    # scraped_dict['mars_weather'] = soup.find("span", {"class": "css-901oao css-16my406 r-1qd0xha r-ad9z0x r-bcqeeo r-qvutc0"})
+
+    # Mars Facts Table Data
+    url = 'https://space-facts.com/mars/'
     browser.visit(url)
     html = browser.html
     soup = bs(html, "html.parser")
 
-    scraped_dict['mars_weather'] = soup.find("span", {"class": "css-901oao css-16my406 r-1qd0xha r-ad9z0x r-bcqeeo r-qvutc0"})
+    mars_facts = soup.find("table", {"id": "tablepress-p-mars"})
+    mars_facts_df = pd.read_html(str(mars_facts))
+    mars_facts_df = mars_facts_df[0]
+
+    scraped_dict['mars_facts'] = mars_facts_df.to_html(index=False, header=False)
 
     # Mars Hemisphere Data
     url = 'https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars'
@@ -51,11 +63,11 @@ def scrape():
     hemisphere_image_urls = []
     base_url = 'https://astrogeology.usgs.gov/'
     for link in links:
-        browser.links.find_by_partial_text(link)
-        new_html = browser.html
-        new_soup = bs(new_html, "html.parser")
-        title = new_soup.find("h2", {"class": "title"}).get_text()
-        img_url = base_url + new_soup.find("img", {"class": "wide-image"})['src']
+        browser.click_link_by_partial_text(link)
+        html = browser.html
+        soup = bs(html, "html.parser")
+        title = soup.find("h2", {"class": "title"}).get_text()
+        img_url = base_url + soup.find("img", {"class": "wide-image"})['src']
         hemisphere_image_urls.append({"title": title, "img_url": img_url})
         browser.back()
     

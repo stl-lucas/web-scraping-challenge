@@ -18,6 +18,7 @@ def home():
 
 @app.route("/scrape")
 def scrape_page():
+    db.data.drop()
     collection.insert_one(scrape())
     return redirect(url_for('home'))
 
